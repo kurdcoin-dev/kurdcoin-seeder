@@ -1,7 +1,7 @@
-blackcoin-seeder
+kurdcoin-seeder
 ==============
 
-BlackCoin-seeder is a crawler for the BlackCoin network, which exposes a list
+kurdcoin-seeder is a crawler for the kurdcoin network, which exposes a list
 of reliable nodes via a built-in DNS server.
 
 Features:

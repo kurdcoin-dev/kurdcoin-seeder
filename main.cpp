@@ -35,7 +35,7 @@ public:
   CDnsSeedOpts() : nThreads(96), nDnsThreads(4), nPort(53), mbox(NULL), ns(NULL), host(NULL), tor(NULL), fDaemon(false), fUseTestNet(false), fWipeBan(false), fWipeIgnore(false), ipv4_proxy(NULL), ipv6_proxy(NULL) {}
 
   void ParseCommandLine(int argc, char **argv) {
-    static const char *help = "BlackCoin-seeder\n"
+    static const char *help = "KurdCoin-seeder\n"
                               "Usage: %s -h <host> -n <ns> [-m <mbox>] [-t <threads>] [-p <port>]\n"
                               "\n"
                               "Options:\n"
@@ -82,17 +82,17 @@ public:
           host = optarg;
           break;
         }
-        
+
         case 'm': {
           mbox = optarg;
           break;
         }
-        
+
         case 'n': {
           ns = optarg;
           break;
         }
-        
+
         case 't': {
           int n = strtol(optarg, NULL, 10);
           if (n > 0 && n < 1000) nThreads = n;
@@ -133,7 +133,10 @@ public:
       }
     }
     if (host != NULL && ns == NULL) showHelp = true;
-    if (showHelp) fprintf(stderr, help, argv[0]);
+    if (showHelp) {
+        fprintf(stderr, help, argv[0]);
+        exit(0);
+     }
   }
 };
 
@@ -258,7 +261,7 @@ extern "C" int GetIPList(void *data, addr_t* addr, int max, int ipv4, int ipv6) 
   while (i<max) {
     int j = i + (rand() % (size - i));
     do {
-        bool ok = (ipv4 && thread->cache[j].v == 4) || 
+        bool ok = (ipv4 && thread->cache[j].v == 4) ||
                   (ipv6 && thread->cache[j].v == 6);
         if (ok) break;
         j++;
@@ -357,14 +360,14 @@ extern "C" void* ThreadStats(void*) {
   } while(1);
 }
 
-static const string mainnet_seeds[] = {"dnsseed.vasin.nl", "dnsseed.joshuajbouw.com", ""};
+static const string mainnet_seeds[] = {"asia.kurdcoin.org", ""};
 static const string testnet_seeds[] = {""};
 static const string *seeds = mainnet_seeds;
 
 extern "C" void* ThreadSeeder(void*) {
   if (!fTestNet){
-    db.Add(CService("69.30.221.82", 19001, false), true);
-    db.Add(CService("2607:fea8:3ca0:926::2", 15714, false), true);
+    // db.Add(CService("69.30.221.82", 19001, false), true);
+    // db.Add(CService("2607:fea8:3ca0:926::2", 15714, false), true);
     db.Add(CService("54ktu5wby3agev2d.onion", 15714), true);
     db.Add(CService("pqlf5ov3xzkqj3lt.onion", 15714), true);
   }
@@ -409,10 +412,10 @@ int main(int argc, char **argv) {
   bool fDNS = true;
   if (opts.fUseTestNet) {
       printf("Using testnet.\n");
-      pchMessageStart[0] = 0xcd;
-      pchMessageStart[1] = 0xf2;
-      pchMessageStart[2] = 0xc0;
-      pchMessageStart[3] = 0xef;
+      pchMessageStart[0] = 0x3d;
+      pchMessageStart[1] = 0xa5;
+      pchMessageStart[2] = 0xd3;
+      pchMessageStart[3] = 0xa7;
       seeds = testnet_seeds;
       fTestNet = true;
   }
